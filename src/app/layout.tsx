@@ -1,5 +1,4 @@
 import { Geist_Mono, Inter, JetBrains_Mono } from "next/font/google"
-
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { ClerkProvider } from "@clerk/nextjs"
@@ -39,7 +38,7 @@ export default function RootLayout({
     >
       <body>
         <ClerkProvider>
-          <ThemeProvider>{children}</ThemeProvider>
+            {children}
         </ClerkProvider>
       </body>
     </html>

@@ -1,12 +1,5 @@
-import { SignIn } from "@clerk/nextjs"
-import { Suspense } from "react"
+import { SignIn } from '@clerk/nextjs'
 
-export default function SignInPage() {
-  return (
-    <main className="flex min-h-screen items-center justify-center p-6">
-      <Suspense fallback={<p>Carregando login...</p>}>
-        <SignIn />
-      </Suspense>
-    </main>
-  )
+export default function Page() {
+  return <SignIn />
 }
