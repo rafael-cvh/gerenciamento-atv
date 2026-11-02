@@ -1,6 +1,8 @@
+
 import { Geist_Mono, Inter, JetBrains_Mono } from "next/font/google"
 import { cn } from "@/lib/utils"
 import { ClerkProvider } from "@clerk/nextjs"
+import { Toaster } from "@/components/ui/sonner"
 import "./globals.css"
 
 const jetbrainsMonoHeading = JetBrains_Mono({
@@ -37,7 +39,8 @@ export default function RootLayout({
     >
       <body>
         <ClerkProvider>
-            {children}
+          {children}
+          <Toaster />
         </ClerkProvider>
       </body>
     </html>

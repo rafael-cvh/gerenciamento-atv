@@ -31,17 +31,21 @@ export async function createTask(
     return { success: false, message: "O título deve ter até 100 caracteres e a descrição até 500." }
   }
 
-  await prisma.task.create({
-    data: {
-      title,
-      description: description || null,
-      userId,
-    },
-  })
+  try {
+    await prisma.task.create({
+      data: {
+        title,
+        description: description || null,
+        userId,
+      },
+    })
 
-  revalidatePath("/")
+    revalidatePath("/")
 
-  return { success: true, message: "Tarefa cadastrada com sucesso!" }
+    return { success: true, message: "Tarefa cadastrada com sucesso!" }
+  } catch {
+    return { success: false, message: "Erro ao cadastrar tarefa. Tente novamente." }
+  }
 }
 
 export async function editTask(
@@ -66,21 +70,25 @@ export async function editTask(
     return { success: false, message: "O título deve ter até 100 caracteres e a descrição até 500." }
   }
 
-  const result = await prisma.task.updateMany({
-    where: { id, userId },
-    data: {
-      title,
-      description: description || null,
-    },
-  })
+  try {
+    const result = await prisma.task.updateMany({
+      where: { id, userId },
+      data: {
+        title,
+        description: description || null,
+      },
+    })
 
-  if (result.count === 0) {
-    return { success: false, message: "Tarefa não encontrada." }
+    if (result.count === 0) {
+      return { success: false, message: "Tarefa não encontrada." }
+    }
+
+    revalidatePath("/")
+
+    return { success: true, message: "Tarefa atualizada com sucesso!" }
+  } catch {
+    return { success: false, message: "Erro ao atualizar tarefa. Tente novamente." }
   }
-
-  revalidatePath("/")
-
-  return { success: true, message: "Tarefa atualizada com sucesso!" }
 }
 
 export async function updateTaskStatus(
@@ -100,22 +108,26 @@ export async function updateTaskStatus(
     return { success: false, message: "Dados inválidos." }
   }
 
-  const result = await prisma.task.updateMany({
-    where: { id, userId },
-    data: { completed: completedValue === "true" },
-  })
+  try {
+    const result = await prisma.task.updateMany({
+      where: { id, userId },
+      data: { completed: completedValue === "true" },
+    })
 
-  if (result.count === 0) {
-    return { success: false, message: "Tarefa não encontrada." }
-  }
+    if (result.count === 0) {
+      return { success: false, message: "Tarefa não encontrada." }
+    }
 
-  revalidatePath("/")
+    revalidatePath("/")
 
-  return {
-    success: true,
-    message: completedValue === "true"
-      ? "Tarefa concluída!"
-      : "Tarefa reaberta!",
+    return {
+      success: true,
+      message: completedValue === "true"
+        ? "Tarefa concluída!"
+        : "Tarefa reaberta!",
+    }
+  } catch {
+    return { success: false, message: "Erro ao alterar tarefa. Tente novamente." }
   }
 }
 
@@ -135,15 +147,19 @@ export async function removeTask(
     return { success: false, message: "Identificador inválido." }
   }
 
-  const result = await prisma.task.deleteMany({
-    where: { id, userId },
-  })
+  try {
+    const result = await prisma.task.deleteMany({
+      where: { id, userId },
+    })
 
-  if (result.count === 0) {
-    return { success: false, message: "Tarefa não encontrada." }
+    if (result.count === 0) {
+      return { success: false, message: "Tarefa não encontrada." }
+    }
+
+    revalidatePath("/")
+
+    return { success: true, message: "Tarefa excluída com sucesso!" }
+  } catch {
+    return { success: false, message: "Erro ao excluir tarefa. Tente novamente." }
   }
-
-  revalidatePath("/")
-
-  return { success: true, message: "Tarefa excluída com sucesso!" }
 }
