@@ -119,11 +119,17 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
+  }
+
   html {
     @apply font-sans;
-    }
+    min-height: 100%;
+    background-color: #000000;
+  }
+
+  body {
+    color: #ffffff;
+    min-height: 100vh;
+    background-color: #000000;
+  }
 }

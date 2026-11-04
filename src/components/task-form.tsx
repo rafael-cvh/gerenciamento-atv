@@ -26,14 +26,9 @@ export function TaskForm() {
           required
         />
 
-        <Textarea
-          name="description"
-          placeholder="Descrição (opcional)"
-          maxLength={500}
-          rows={3}
-        />
+        <Textarea  name="description"  placeholder="Descrição (opcional)"  maxLength={500} rows={3} />
 
-        <Button type="submit" isDisabled={isPending}>
+        <Button type="submit" className="bg-green-500 text-white hover:bg-green-700" isDisabled={isPending}>
           {isPending ? "Cadastrando..." : "Adicionar tarefa"}
         </Button>
 
